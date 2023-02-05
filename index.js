@@ -205,3 +205,34 @@ function randomWord() {
     }
 }
 randomWord();
+
+function initialize_game(e) {
+    let key = e.target.value.toLowerCase();
+    if (key.match(/^[A-Za-z]+$/)) {
+        if (word.includes(key)) {
+            for (let i = 0; i < word.length; i++) {
+                if (word[i] == key) {
+                    correctLetters += key;
+                    inputs.querySelectorAll("input")[i].value = key;
+                }
+            }
+        } else {
+            maxGuesses--;
+            incorrectLetters.push(` ${key}`);
+        }
+        guessLeft.innerText = maxGuesses;
+        wrongLetter.innerText = incorrectLetters;
+    }
+    typeInput.value = "";
+
+    if (maxGuesses < 1) {
+        for (let i = 0; i < word.length; i++) {
+            inputs.querySelectorAll("input")[i].value = word[i];
+        }
+
+
+    }
+}
+typeInput.addEventListener("input", initialize_game);
+inputs.addEventListener("click", () => typeInput.focus());
+document.addEventListener("keydown", () => typeInput.focus());
